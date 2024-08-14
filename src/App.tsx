@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Typography, Box, Card, CardContent, Container } from "@mui/material";
+import React from "react";
+import {
+  Typography,
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Button,
+} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import "./App.css";
 import TableComponent from "./tableComponent";
@@ -7,32 +15,12 @@ import TableComponent from "./tableComponent";
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
 function App() {
-  // SWR approach
   const { data, error } = useSWR("http://localhost:3001", fetcher);
+  const navigate = useNavigate();
 
-  // useState and useEffect approach (commented out)
-  /*
-  const [data, setData] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetch("http://localhost:3001")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.text();
-      })
-      .then(data => {
-        console.log("Received data:", data);
-        setData(data);
-      })
-      .catch(error => {
-        console.error("Fetch error:", error);
-        setError("Failed to load data: " + error.message);
-      });
-  }, []);
-  */
+  const handleButtonClick = () => {
+    navigate("/new-page"); // Navigate to the new page
+  };
 
   return (
     <Box
@@ -57,6 +45,14 @@ function App() {
               <Typography variant="body1" color="text.secondary">
                 {error ? `Error: ${error.message}` : data ? data : "Loading..."}
               </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ mt: 2 }}
+                onClick={handleButtonClick}
+              >
+                Go to New Page
+              </Button>
             </Box>
           </CardContent>
         </Card>
