@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Typography, Box, Card, CardContent, Container } from "@mui/material";
 import useSWR from "swr";
 import "./App.css";
+import TableComponent from "./tableComponent";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
@@ -60,6 +61,7 @@ function App() {
           </CardContent>
         </Card>
       </Container>
+      <TableComponent />
     </Box>
   );
 }
