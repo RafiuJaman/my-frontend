@@ -1,28 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Typography, Box, Card, CardContent, Container } from "@mui/material";
+import useSWR from "swr";
 import "./App.css";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.text());
+
 function App() {
+  // SWR approach
+  const { data, error } = useSWR("http://localhost:3001", fetcher);
+
+  // useState and useEffect approach (commented out)
+  /*
   const [data, setData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:3001")
-      .then((response) => {
+      .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.text(); // Change this to .text() instead of .json()
+        return response.text();
       })
-      .then((data) => {
-        console.log("Received data:", data); // Log the received data
+      .then(data => {
+        console.log("Received data:", data);
         setData(data);
       })
-      .catch((error) => {
-        console.error("Fetch error:", error); // Log any errors
+      .catch(error => {
+        console.error("Fetch error:", error);
         setError("Failed to load data: " + error.message);
       });
   }, []);
+  */
 
   return (
     <Box
@@ -45,7 +54,7 @@ function App() {
             </Typography>
             <Box mt={2}>
               <Typography variant="body1" color="text.secondary">
-                {error ? error : data ? data : "Loading..."}
+                {error ? `Error: ${error.message}` : data ? data : "Loading..."}
               </Typography>
             </Box>
           </CardContent>
