@@ -8,9 +8,20 @@ function App() {
 
   useEffect(() => {
     fetch("http://localhost:3001")
-      .then((response) => response.json())
-      .then((data) => setData(JSON.stringify(data)))
-      .catch((error) => setError("Failed to load data"));
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Change this to .text() instead of .json()
+      })
+      .then((data) => {
+        console.log("Received data:", data); // Log the received data
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Fetch error:", error); // Log any errors
+        setError("Failed to load data: " + error.message);
+      });
   }, []);
 
   return (
