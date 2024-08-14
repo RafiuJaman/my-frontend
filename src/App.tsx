@@ -19,6 +19,15 @@ function App() {
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
+    //make post request to server
+    fetch("http://localhost:3001/test", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: "Hello from the client" }),
+    });
+
     navigate("/new-page"); // Navigate to the new page
   };
 
