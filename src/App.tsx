@@ -14,13 +14,15 @@ import TableComponent from "./tableComponent";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
+const baseUrl = process.env.REACT_APP_BASE_API_URL!;
+
 function App() {
-  const { data, error } = useSWR("http://localhost:3001", fetcher);
+  const { data, error } = useSWR(baseUrl, fetcher);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
     //make post request to server
-    fetch("http://localhost:3001/test", {
+    fetch(baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
