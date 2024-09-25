@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const ClaimFormComponent: React.FC = () => {
+  const navigate = useNavigate(); // Initialize the navigate function
   const baseUrl = process.env.REACT_APP_BASE_API_URL!;
   const [formData, setFormData] = useState({
     name: "",
@@ -36,7 +38,8 @@ const ClaimFormComponent: React.FC = () => {
       });
 
       if (response.ok) {
-        alert("Form submitted successfully");
+        // Navigate to the success page on successful form submission
+        navigate("/success");
       } else {
         alert("Failed to submit form");
       }

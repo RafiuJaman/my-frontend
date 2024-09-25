@@ -5,6 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import App from "./App";
 import NewPage from "./newPage";
+import SuccessPage from "./success";
 
 const theme = createTheme();
 
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />} /> {/* Root path */}
           <Route path="/new-page" element={<NewPage />} /> {/* New page path */}
+          <Route path="/success" element={<SuccessPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
