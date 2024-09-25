@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup"; // Import Yup
 
 const ClaimFormComponent: React.FC = () => {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
   const baseUrl = process.env.REACT_APP_BASE_API_URL!;
   const [formData, setFormData] = useState({
     name: "",
@@ -13,6 +14,18 @@ const ClaimFormComponent: React.FC = () => {
     claimType: "Medical", // Default value
   });
 
+  // Define validation schema
+  const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Claimant name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    amount: Yup.number()
+      .positive("Claim amount must be positive")
+      .required("Claim amount is required"),
+    dateOfIncident: Yup.string().required("Date of incident is required"),
+    description: Yup.string().required("Description is required"),
+    claimType: Yup.string().required("Claim type is required"),
+  });
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -21,7 +34,7 @@ const ClaimFormComponent: React.FC = () => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "amount" ? parseFloat(value) : value, // Parse amount as float
+      [name]: name === "amount" ? parseFloat(value) : value,
     });
   };
 
@@ -29,6 +42,9 @@ const ClaimFormComponent: React.FC = () => {
     e.preventDefault();
 
     try {
+      // Validate form data against the schema
+      await validationSchema.validate(formData, { abortEarly: false });
+
       const response = await fetch(`${baseUrl}/test/addForm`, {
         method: "POST",
         headers: {
@@ -38,14 +54,17 @@ const ClaimFormComponent: React.FC = () => {
       });
 
       if (response.ok) {
-        // Navigate to the success page on successful form submission
         navigate("/success");
       } else {
         alert("Failed to submit form");
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while submitting the form");
+      if (error instanceof Yup.ValidationError) {
+        alert(error.errors.join(", ")); // Show validation errors
+      } else {
+        console.error("Error:", error);
+        alert("An error occurred while submitting the form");
+      }
     }
   };
 
