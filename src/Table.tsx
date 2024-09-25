@@ -28,7 +28,7 @@ const FormsTable: React.FC = () => {
         const data: Form[] = await response.json();
         setForms(data);
       } catch (err) {
-        setError("didnt work");
+        setError("didn't work");
       } finally {
         setLoading(false);
       }
@@ -36,6 +36,34 @@ const FormsTable: React.FC = () => {
 
     fetchForms();
   }, []);
+
+  const statusInALLCaps = (status: string) => status.toUpperCase();
+
+  const updateStatus = async (id: number, newStatus: string) => {
+    try {
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_BASE_API_URL
+        }/test/updateForm/${id}/${statusInALLCaps(newStatus)}`,
+        {
+          method: "PATCH",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to update status");
+      }
+
+      // Update the local state to reflect the change
+      setForms((prevForms) =>
+        prevForms.map((form) =>
+          form.id === id ? { ...form, status: newStatus } : form
+        )
+      );
+    } catch (error) {
+      setError("Error updating status");
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -57,6 +85,7 @@ const FormsTable: React.FC = () => {
           <th>Description</th>
           <th>Claim Type</th>
           <th>Status</th> {/* New column for status */}
+          <th>Actions</th> {/* New column for actions */}
         </tr>
       </thead>
       <tbody>
@@ -69,7 +98,22 @@ const FormsTable: React.FC = () => {
             <td>{form.dateOfIncident}</td>
             <td>{form.description}</td>
             <td>{form.claimType}</td>
-            <td>{form.status}</td> {/* Display the status */}
+            <td>
+              <select
+                value={form.status}
+                onChange={(e) => updateStatus(form.id, e.target.value)}
+              >
+                <option value="pending">Pending</option>
+                <option value="approved">Approved</option>
+                <option value="rejected">Rejected</option>
+                {/* Add more status options as needed */}
+              </select>
+            </td>
+            <td>
+              <button onClick={() => updateStatus(form.id, form.status)}>
+                Update Status
+              </button>
+            </td>
           </tr>
         ))}
       </tbody>
