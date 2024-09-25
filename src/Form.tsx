@@ -27,7 +27,7 @@ const ClaimFormComponent: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(baseUrl, {
+      const response = await fetch(`${baseUrl}/test/addForm`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
