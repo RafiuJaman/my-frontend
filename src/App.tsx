@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import useSWR from "swr";
 import "./App.css";
 import TableComponent from "./tableComponent";
+import ClaimFormComponent from "./Form";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.text());
 
@@ -43,7 +44,8 @@ function App() {
         justifyContent: "center",
       }}
     >
-      <Container maxWidth="sm">
+      <ClaimFormComponent />
+      {/* <Container maxWidth="sm">
         <Card elevation={3}>
           <CardContent sx={{ textAlign: "center", py: 4 }}>
             <Typography variant="h3" component="h1" gutterBottom>
@@ -68,7 +70,7 @@ function App() {
           </CardContent>
         </Card>
       </Container>
-      <TableComponent />
+      <TableComponent /> */}
     </Box>
   );
 }
