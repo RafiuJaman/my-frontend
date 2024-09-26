@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup"; // Import Yup
+import "./cs.css"; // Import your CSS file
 
 const ClaimFormComponent: React.FC = () => {
   const navigate = useNavigate();
@@ -69,77 +70,88 @@ const ClaimFormComponent: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Claimant Name:</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
-      </div>
+    <div className="form-container">
+      <h2>Claim Form</h2>
+      <form onSubmit={handleSubmit} className="claim-form">
+        <div className="form-group">
+          <label>Claimant Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Claimant Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <div className="form-group">
+          <label>Claimant Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Claim Amount:</label>
-        <input
-          type="number"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <div className="form-group">
+          <label>Claim Amount:</label>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Date of Incident:</label>
-        <input
-          type="date"
-          name="dateOfIncident"
-          value={formData.dateOfIncident}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <div className="form-group">
+          <label>Date of Incident:</label>
+          <input
+            type="date"
+            name="dateOfIncident"
+            value={formData.dateOfIncident}
+            onChange={handleChange}
+            required
+            className="form-input"
+          />
+        </div>
 
-      <div>
-        <label>Description:</label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        />
-      </div>
+        <div className="form-group">
+          <label>Description:</label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            required
+            className="form-textarea"
+          />
+        </div>
 
-      <div>
-        <label>Claim Type:</label>
-        <select
-          name="claimType"
-          value={formData.claimType}
-          onChange={handleChange}
-        >
-          <option value="Medical">Medical</option>
-          <option value="Accident">Accident</option>
-          <option value="Theft">Theft</option>
-          <option value="Property Damage">Property Damage</option>
-        </select>
-      </div>
+        <div className="form-group">
+          <label>Claim Type:</label>
+          <select
+            name="claimType"
+            value={formData.claimType}
+            onChange={handleChange}
+            className="form-input"
+          >
+            <option value="Medical">Medical</option>
+            <option value="Accident">Accident</option>
+            <option value="Theft">Theft</option>
+            <option value="Property Damage">Property Damage</option>
+          </select>
+        </div>
 
-      <button type="submit">Submit</button>
-    </form>
+        <button type="submit" className="submit-button">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 };
 
